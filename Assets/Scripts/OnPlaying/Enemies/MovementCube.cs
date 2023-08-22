@@ -8,16 +8,14 @@ public class MovementCube : MonoBehaviour
 {
     private float speed = 9f;
     [SerializeField] private Transform target;
-    private Rigidbody2D rigidBody;
-    //private const int distanceToAttack = 5;
     public Animator animator;
-    bool canMove;
     private float paddingAttackY;
     private float paddingAttackX;
     private float DISTANCE_TO_GO = 100;
-    private Vector3 targetPosition;
+    private Vector3 positionToGo;
     private bool rightAttack;
     private bool leftAttack;
+    private float cubeDamage = 100;
     
 
     // Start is called before the first frame update
@@ -25,7 +23,7 @@ public class MovementCube : MonoBehaviour
     {
         rightAttack = false;
         leftAttack = false;
-        rigidBody = GetComponent<Rigidbody2D>();
+       
         
 
 
@@ -37,7 +35,6 @@ public class MovementCube : MonoBehaviour
     void Update()
     {
 
-        canMove = leftAttack && rightAttack;
 
         paddingAttackY = transform.position.y - target.position.y;
         paddingAttackX = transform.position.x - target.position.x;
@@ -54,7 +51,7 @@ public class MovementCube : MonoBehaviour
                 animator.SetBool("findEnemy", true);
 
             }
-            else if (paddingAttackX > -0)
+            else if (paddingAttackX > 0)
             {
                 leftAttack = true;
                 animator.SetBool("findEnemy", true);
@@ -63,62 +60,47 @@ public class MovementCube : MonoBehaviour
         }
         if (rightAttack)
         {
-            targetPosition = new Vector3(transform.position.x + DISTANCE_TO_GO, 0, 0);
-            transform.position += targetPosition.normalized * speed * Time.deltaTime;
-            
+            positionToGo = new Vector3(transform.position.x + DISTANCE_TO_GO, 0, 0);
+            transform.position += positionToGo.normalized * speed * Time.deltaTime;
+
         }
         else if (leftAttack)
         {
-            targetPosition = new Vector3(transform.position.x - DISTANCE_TO_GO, 0, 0);
-            transform.position += targetPosition.normalized * speed * Time.deltaTime;
-            
+            positionToGo = new Vector3(transform.position.x - DISTANCE_TO_GO, 0, 0);
+            transform.position += positionToGo.normalized * speed * Time.deltaTime;
 
-        }else
-        {
-            
         }
-
-        
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision != null) 
-        {
+        
+            
 
+
+        if (collision.collider.CompareTag("enemy") && animator.GetBool("findEnemy"))
+        {
+            collision.gameObject.GetComponent<EnemyHP>().GetDamage(cubeDamage);
+
+        }
+        else
+        {
             rightAttack = false;
             leftAttack = false;
             animator.SetBool("findEnemy", false);
-
         }
+
 
        
     }
 
-    /*private void MoveToPlayer()
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (target != null && canMove)
-        {
-            if (Vector3.Distance(target.transform.position, transform.position) < distanceToAttack)
-            {
-
-                rigidBody.velocity = (target.position - transform.position).normalized * speed;
-
-                animator.SetBool("findEnemy", true);
-
-            }
-            else
-            {
-                rigidBody.velocity = Vector3.zero;
-                animator.SetBool("findEnemy", false);
-            }
-        } 
-        else if (target == null)
-        {
-           
-        }
-    }*/
+        rightAttack = false;
+        leftAttack = false;
+        animator.SetBool("findEnemy", false);
+    }
 
 
 }

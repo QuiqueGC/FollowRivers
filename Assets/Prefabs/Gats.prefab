@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4891734360020158500}
   - component: {fileID: 7410753682389862709}
   - component: {fileID: 418285426681443788}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PunchBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 2337629059608670833}
   - component: {fileID: 3760049908354679964}
   - component: {fileID: 4825914147946805383}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 4410872130338042782}
   - component: {fileID: 3518819771476182082}
   - component: {fileID: 2318580546911306288}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gats
   m_TagString: gats
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ Transform:
   - {fileID: 9069016867444979144}
   - {fileID: 5660924830184408823}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1240666243269511211
 SpriteRenderer:
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 7978020029626065851}
   - component: {fileID: 646051196131699179}
   - component: {fileID: 3269590258663617369}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PunchBarBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 3658190931231304392}
   - component: {fileID: 3493675946302598225}
   - component: {fileID: 7995261951218214446}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: DashBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 8673283018030906877}
   - component: {fileID: 7594297384373482307}
   - component: {fileID: 6396138431493338634}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PunchHitBox
   m_TagString: punchHitBox
   m_Icon: {fileID: 0}
@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 8646323111466026068}
   - component: {fileID: 6726902479860587385}
   - component: {fileID: 1405451559708621699}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: DashBarBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -835,7 +835,7 @@ GameObject:
   - component: {fileID: 9181614505296381736}
   - component: {fileID: 1941030338181711620}
   - component: {fileID: 5748366555286576609}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShotHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -15,6 +15,4 @@ public static class Gats
     public static float shotDamage = 2.5f;
     //public static float dashDuration = 0.15f;
 
-
-
 }

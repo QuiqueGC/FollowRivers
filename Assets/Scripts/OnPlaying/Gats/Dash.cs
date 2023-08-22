@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Dash : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class Dash : MonoBehaviour
             StartCoroutine(DashBarCoroutine());
 
             StartCoroutine(DashCoroutine());
+
+
         }
     }
 
@@ -71,9 +74,12 @@ public class Dash : MonoBehaviour
 
     private IEnumerator DashCoroutine()
     {
-
         Gats.isDashing = true;
-        
+
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("Goblin"), true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("DeadCube"), true);
+
         ChooseSideToDash();
 
         playerRigidBody.velocity *= 6;
@@ -81,6 +87,9 @@ public class Dash : MonoBehaviour
         yield return new WaitForSeconds(DASH_DURATION);
 
         TurnOffDashingBools();
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("Goblin"), false);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("DeadCube"), false);
 
     }
 

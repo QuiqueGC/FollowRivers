@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7252424632985433807}
   m_Layer: 6
   m_Name: Goblin
-  m_TagString: goblin
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

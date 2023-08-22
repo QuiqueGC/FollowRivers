@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Por mucho que se esfuerce...
+  m_text: 'En eras de hambruna...
 
 '
   m_isRightToLeft: 0
@@ -575,7 +575,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ...Un boliche siempre va a ser un boliche.
+  m_text: ...Cualquier comida es buena.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4efade9313ef26640a71c429b656f701, type: 2}
   m_sharedMaterial: {fileID: -7772452521891996602, guid: 4efade9313ef26640a71c429b656f701, type: 2}
@@ -794,7 +794,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pulsa cualquier tecla para comenzar con el sufrimiento.
+  m_text: Pulsa cualquier tecla para comenzar con el banquete.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4efade9313ef26640a71c429b656f701, type: 2}
   m_sharedMaterial: {fileID: -7772452521891996602, guid: 4efade9313ef26640a71c429b656f701, type: 2}

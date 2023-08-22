@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6999396247758252851}
   - component: {fileID: 3399720517679486548}
   - component: {fileID: 2594309136206897702}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DeadCube
   m_TagString: cube
   m_Icon: {fileID: 0}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -42,20 +43,17 @@ public class CharacterMovement : MonoBehaviour
         //el paseo por el foreach
         foreach (Collider2D c in enemiesColliders)
         {
-            if (Physics2D.IsTouching(GetComponent<Collider2D>(), c))
-            {
-                if (Gats.isDashing)
-                {
-                    
-                    StartCoroutine(DashingInvulnerability(c));
-
-                }
-                else
+            try {
+                if (Physics2D.IsTouching(GetComponent<Collider2D>(), c))
                 {
                     SufferingDamage();
                 }
-
+            }catch (Exception e)
+            {
+                Debug.Log(e);
+                Debug.Log("algo falla");
             }
+            
 
         }
 
@@ -151,8 +149,6 @@ public class CharacterMovement : MonoBehaviour
     {
         
 
-        
-
         if (collision.collider.CompareTag("enemy") && !Gats.isDashing) 
         {
             enemiesColliders.Add(collision.collider);
@@ -165,8 +161,7 @@ public class CharacterMovement : MonoBehaviour
             enemiesColliders.Add(collision.collider);
 
             Collision2D enemy = collision;
-            //casi lo tengo, pero es una puta mierda
-            StartCoroutine(DashingInvulnerability(enemy.collider));
+           
             
 
         }
@@ -206,18 +201,7 @@ public class CharacterMovement : MonoBehaviour
 
     }
     
-
-    private IEnumerator DashingInvulnerability(Collider2D enemy)
-    {
-        
-        float invulnerabilityTimeDuringDash = 0.15f;
-
-        Physics2D.IgnoreCollision(enemy, GetComponent<Collider2D>(), true);
-
-        yield return new WaitForSeconds(invulnerabilityTimeDuringDash);
-
-        Physics2D.IgnoreCollision(enemy, GetComponent<Collider2D>(), false);
-    }
+    
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -226,4 +210,9 @@ public class CharacterMovement : MonoBehaviour
             enemiesColliders.Remove(collision.collider);
         }
     }
+
+    /*private void OnCollisionStay2D(Collision2D collision)
+    {
+        
+    }*/
 }
