@@ -120,7 +120,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: df033fee446efd442b0105a05198858a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b7940b2e48347764d9b5c9c3682459fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -144,3 +144,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 3539763703919553952, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
+  openDoor: {fileID: 0}

@@ -8,6 +8,7 @@ public class DoorsManagement : MonoBehaviour
     //public static DoorsManagement instance;
     [SerializeField] private GameObject player;
     private bool isTouching;
+    [SerializeField] private Sprite openDoor;
 
 
     // Start is called before the first frame update
@@ -21,11 +22,20 @@ public class DoorsManagement : MonoBehaviour
     {
         
 
-        if (isTouching && Input.GetKeyDown("l")) 
-        {
-            Destroy(transform.gameObject);
-        }
+        OpeningDoors();
         
+    }
+
+    private void OpeningDoors()
+    {
+
+        if (isTouching && Input.GetKeyDown("l"))
+        {
+            transform.gameObject.GetComponent<Collider2D>().enabled = false;
+
+            transform.gameObject.GetComponent<SpriteRenderer>().sprite = openDoor;
+            //Destroy(transform.gameObject);
+        }
     }
 
     private void Awake()

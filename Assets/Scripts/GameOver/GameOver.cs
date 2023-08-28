@@ -32,7 +32,16 @@ public class GameOver : MonoBehaviour
 
         if(Input.GetKey("k")) 
         {
-            SceneManager.LoadScene("MainTitle");
+            
+
+            if (handToMove.position == leftChoice)
+            {
+                SceneManager.LoadScene("Stage1");
+            }
+            else
+            {
+                SceneManager.LoadScene("MainTitle");
+            }
         }
         
     }
