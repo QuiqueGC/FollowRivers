@@ -40,7 +40,7 @@ public class PauseMenu : MonoBehaviour
             inGameUI.SetActive(true);
             
         }
-        else if (Input.GetKeyDown(KeyCode.Return) && paused)
+        else if (Input.GetKeyDown("z") && paused)
         {
             Application.Quit();
         }

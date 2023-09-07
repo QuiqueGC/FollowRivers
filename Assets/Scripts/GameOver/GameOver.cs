@@ -17,6 +17,8 @@ public class GameOver : MonoBehaviour
     void Start()
     {
         choiceDone = false;
+        Gats.lives = 3;
+        Gats.score = 0;
     }
 
     // Update is called once per frame

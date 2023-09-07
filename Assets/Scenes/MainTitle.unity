@@ -667,11 +667,15 @@ PrefabInstance:
         --------------------
 
         pulsa
-        la tecla "enter" para salir del juego'
+        la tecla "z" para salir del juego'
       objectReference: {fileID: 0}
     - target: {fileID: 3113177778467808543, guid: c6ea6e4ac8100534da462d7712d15efa, type: 3}
       propertyPath: m_Name
       value: PauseMenuUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3113177778467808543, guid: c6ea6e4ac8100534da462d7712d15efa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7305930153811006737, guid: c6ea6e4ac8100534da462d7712d15efa, type: 3}
       propertyPath: m_Pivot.x
