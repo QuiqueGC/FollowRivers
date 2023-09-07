@@ -42,6 +42,7 @@ public class EnemyHP : MonoBehaviour
 
     private void Die()
     {
+        Gats.score += 10;
 
         StartCoroutine(DyingAnimation());
     }

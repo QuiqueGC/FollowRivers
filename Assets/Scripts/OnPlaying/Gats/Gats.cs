@@ -13,6 +13,7 @@ public static class Gats
     public static float speed = 3.2f;
     public static float punchDamage = 5;
     public static float shotDamage = 2.5f;
+    public static float score = 0;
     //public static float dashDuration = 0.15f;
 
 }

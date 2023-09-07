@@ -58,7 +58,8 @@ public class GameOver : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("MainTitle");
+            //NO FUNCIONA!!!!
+            Application.Quit();
         }
 
     } 

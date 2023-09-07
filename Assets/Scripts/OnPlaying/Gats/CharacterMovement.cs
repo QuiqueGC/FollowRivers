@@ -12,8 +12,11 @@ public class CharacterMovement : MonoBehaviour
     Rigidbody2D playerRigidBody;
     private Color color;
     private bool invulnerable;
-    [SerializeField] Canvas UI;
+    [SerializeField] TextMeshProUGUI livesText;
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] AudioClip damageReceived;
     private string actualHP;
+    private string actualScore;
     List<Collider2D> enemiesColliders = new List<Collider2D>();
 
     // Start is called before the first frame update
@@ -22,7 +25,7 @@ public class CharacterMovement : MonoBehaviour
         playerRigidBody = GetComponent<Rigidbody2D>();
         color = transform.GetComponent<SpriteRenderer>().color;
         invulnerable = false;
-        Gats.lives = 3;
+        
         
 
     }
@@ -37,7 +40,11 @@ public class CharacterMovement : MonoBehaviour
 
         actualHP = "Vidas: " + Gats.lives.ToString();
 
-        UI.GetComponentInChildren<TextMeshProUGUI>().text = actualHP;
+        livesText.text = actualHP;
+
+        actualScore = "Comida para el invierno: " + Gats.score.ToString();
+
+        scoreText.text = actualScore;
 
         
         foreach (Collider2D c in enemiesColliders)
@@ -175,6 +182,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if(!invulnerable)
         {
+            gameObject.GetComponent<AudioSource>().PlayOneShot(damageReceived, 0.75f);
             Gats.lives--;
 
             StartCoroutine(InvulnerabilityForDamageRecieved());

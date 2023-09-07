@@ -11,6 +11,7 @@ TagManager:
   - gats
   - heart
   - door
+  - finalDoor
   layers:
   - Default
   - TransparentFX

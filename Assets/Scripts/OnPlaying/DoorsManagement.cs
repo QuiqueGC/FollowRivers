@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DoorsManagement : MonoBehaviour
 {
@@ -36,14 +37,17 @@ public class DoorsManagement : MonoBehaviour
             transform.gameObject.GetComponent<SpriteRenderer>().sprite = openDoor;
 
             gameObject.GetComponent<AudioSource>().Play();
+
+
+            if(gameObject.tag == "finalDoor")
+            {
+                SceneManager.LoadScene("WinScene");
+            }
             
         }
     }
 
-    private void Awake()
-    {
-        
-    }
+   
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

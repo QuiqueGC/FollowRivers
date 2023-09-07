@@ -26,6 +26,11 @@ public class heartBehaviour : MonoBehaviour
             if (Gats.lives < 3)
             {
                 Gats.lives++;
+
+            }
+            else
+            {
+                Gats.score += 50;
             }
 
             playingTakingLiveFX();
