@@ -3,22 +3,48 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class WinSceneManagement : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI score;
+    [SerializeField] private TextMeshProUGUI bestPlayerName;
+    [SerializeField] private TextMeshProUGUI bestPlayerScore;
+    private string playerName;
+    [SerializeField] private Selectable inputNameField;
     // Start is called before the first frame update
     void Start()
     {
         score.text = Gats.score.ToString();
+        inputNameField.Select();
+
+        bestPlayerName.text = PlayerPrefs.GetString("playerName","Nadie juega a esto");
+        bestPlayerScore.text = PlayerPrefs.GetFloat("playerScore", 0).ToString();
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKey)
+        if (Input.GetKeyUp(KeyCode.Return))
         {
+            if (PlayerPrefs.GetFloat("playerScore", 0) < Gats.score)
+            {
+
+                PlayerPrefs.SetString("playerName", playerName);
+                PlayerPrefs.SetFloat("playerScore", Gats.score);
+
+            }
+
             Application.Quit();
         }
+        
+
+    }
+
+    public void ChangePlayerName(string name)
+    {
+        playerName = name;
     }
 }
