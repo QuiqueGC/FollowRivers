@@ -18,7 +18,7 @@ public class WinSceneManagement : MonoBehaviour
     {
         if (Input.anyKey)
         {
-            SceneManager.LoadScene("MainTitle");
+            Application.Quit();
         }
     }
 }

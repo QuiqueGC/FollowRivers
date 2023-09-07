@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -58,7 +57,7 @@ public class GameOver : MonoBehaviour
         }
         else
         {
-            //NO FUNCIONA!!!!
+            
             Application.Quit();
         }
 

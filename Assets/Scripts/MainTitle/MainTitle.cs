@@ -33,11 +33,10 @@ public class MainTitle : MonoBehaviour
             choiceDone = true;
             StartCoroutine(callingFXPreviousToStart());
         }
-        else if (Input.GetKeyDown("z") && !firstKeyDown && !choiceDone)
+        else if (Input.GetKeyDown(KeyCode.Return) && !firstKeyDown && !choiceDone)
         {
             choiceDone = true;
 
-            //NO FUNCIONA!!!!
             Application.Quit();
 
         }
