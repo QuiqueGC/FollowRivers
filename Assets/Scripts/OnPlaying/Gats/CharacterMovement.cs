@@ -39,8 +39,7 @@ public class CharacterMovement : MonoBehaviour
 
         UI.GetComponentInChildren<TextMeshProUGUI>().text = actualHP;
 
-        //hay que ver si con un try-catch deja de darme problemas (no sé si es con el remove o sólo al hacer
-        //el paseo por el foreach
+        
         foreach (Collider2D c in enemiesColliders)
         {
             try {
@@ -211,8 +210,5 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    /*private void OnCollisionStay2D(Collision2D collision)
-    {
-        
-    }*/
+    
 }

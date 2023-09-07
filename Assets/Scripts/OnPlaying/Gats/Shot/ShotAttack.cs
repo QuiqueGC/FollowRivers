@@ -10,6 +10,7 @@ public class ShotAttack : MonoBehaviour
 {
     [SerializeField] private Animator gatsAnimator;
     [SerializeField] private Transform shotHitBox;
+    [SerializeField] private AudioClip shotSound;
     private Animator shotAnimator;
     float speedShot = 6.5f;
     float shotDuration = 0.19f;
@@ -25,6 +26,8 @@ public class ShotAttack : MonoBehaviour
     {
         if (Input.GetKeyDown("j"))
         {
+            gameObject.GetComponent<AudioSource>().PlayOneShot(shotSound, 0.25f);
+
             GameObject newShotHitBox = Instantiate(shotHitBox.gameObject);
 
             shotAnimator = newShotHitBox.GetComponent<Animator>();

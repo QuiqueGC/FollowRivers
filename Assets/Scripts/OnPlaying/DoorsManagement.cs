@@ -34,13 +34,15 @@ public class DoorsManagement : MonoBehaviour
             transform.gameObject.GetComponent<Collider2D>().enabled = false;
 
             transform.gameObject.GetComponent<SpriteRenderer>().sprite = openDoor;
-            //Destroy(transform.gameObject);
+
+            gameObject.GetComponent<AudioSource>().Play();
+            
         }
     }
 
     private void Awake()
     {
-        //instance = this;
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -6,28 +6,25 @@ using UnityEngine.UIElements;
 
 public class MovementCube : MonoBehaviour
 {
-    private float speed = 9f;
+    private float SPEED = 9f;
     [SerializeField] private Transform target;
     public Animator animator;
-    private float paddingAttackY;
-    private float paddingAttackX;
+    private float verticalDistanceFromTarget;
+    private float horizontalDistanceFromTarget;
     private float DISTANCE_TO_GO = 100;
     private Vector3 positionToGo;
-    private bool rightAttack;
-    private bool leftAttack;
-    private float cubeDamage = 100;
+    private bool enemyOnTheRight;
+    private bool enemyOnTheLeft;
+    private float CUBE_DAMAGE = 100;
+    //private float VERTICAL_DISTANCE_TO_WAKE_UP = 0.25f;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        rightAttack = false;
-        leftAttack = false;
-       
-        
-
-
-        //targetPosition = new Vector3(transform.position.x + DISTANCE_TO_GO, 0, 0);
+        enemyOnTheRight = false;
+        enemyOnTheLeft = false;
+        gameObject.tag = "Untagged";
 
     }
 
@@ -35,72 +32,86 @@ public class MovementCube : MonoBehaviour
     void Update()
     {
 
-
-        paddingAttackY = transform.position.y - target.position.y;
-        paddingAttackX = transform.position.x - target.position.x;
+        verticalDistanceFromTarget = transform.position.y - target.position.y;
+        horizontalDistanceFromTarget = transform.position.x - target.position.x;
         
 
-
-        if (paddingAttackY <= 0.25f && paddingAttackY >= -0.25f)
+        if (verticalDistanceFromTarget <= 0.25f && verticalDistanceFromTarget >= -0.25f)
         {
            
-
-            if (paddingAttackX < 0)
-            {
-                rightAttack = true;
-                animator.SetBool("findEnemy", true);
-
-            }
-            else if (paddingAttackX > 0)
-            {
-                leftAttack = true;
-                animator.SetBool("findEnemy", true);
-            }
+            CubeWakeUp();
 
         }
-        if (rightAttack)
-        {
-            positionToGo = new Vector3(transform.position.x + DISTANCE_TO_GO, 0, 0);
-            transform.position += positionToGo.normalized * speed * Time.deltaTime;
 
-        }
-        else if (leftAttack)
-        {
-            positionToGo = new Vector3(transform.position.x - DISTANCE_TO_GO, 0, 0);
-            transform.position += positionToGo.normalized * speed * Time.deltaTime;
-
-        }
+        CubeMovement();
 
     }
+
+    private void CubeWakeUp()
+    {
+        if (horizontalDistanceFromTarget < 0)
+        {
+            enemyOnTheRight = true;
+            animator.SetBool("findEnemy", true);
+
+        }
+        else if (horizontalDistanceFromTarget > 0)
+        {
+            enemyOnTheLeft = true;
+            animator.SetBool("findEnemy", true);
+        }
+
+        gameObject.tag = "cube";
+        gameObject.GetComponent<AudioSource>().Play();
+    }
+
+
+
+    private void CubeMovement()
+    {
+        if (enemyOnTheRight)
+        {
+            positionToGo = new Vector3(transform.position.x + DISTANCE_TO_GO, 0, 0);
+            transform.position += positionToGo.normalized * SPEED * Time.deltaTime;
+
+        }
+        else if (enemyOnTheLeft)
+        {
+            positionToGo = new Vector3(transform.position.x - DISTANCE_TO_GO, 0, 0);
+            transform.position += positionToGo.normalized * SPEED * Time.deltaTime;
+        }
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-            
-
-
+         
         if (collision.collider.CompareTag("enemy") && animator.GetBool("findEnemy"))
         {
-            collision.gameObject.GetComponent<EnemyHP>().GetDamage(cubeDamage);
+            collision.gameObject.GetComponent<EnemyHP>().GetDamage(CUBE_DAMAGE);
 
         }
-        else
+        else if (!collision.collider.CompareTag("gats"))
         {
-            rightAttack = false;
-            leftAttack = false;
-            animator.SetBool("findEnemy", false);
+            StopAttacking();
         }
 
-
-       
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        rightAttack = false;
-        leftAttack = false;
-        animator.SetBool("findEnemy", false);
+        StopAttacking();
     }
 
 
+    private void StopAttacking()
+    {
+        enemyOnTheRight = false;
+        enemyOnTheLeft = false;
+        animator.SetBool("findEnemy", false);
+        gameObject.tag = "Untagged";
+
+        gameObject.GetComponent<AudioSource>().Stop();
+    }
 }

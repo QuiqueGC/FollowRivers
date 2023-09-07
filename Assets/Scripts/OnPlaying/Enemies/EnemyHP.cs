@@ -49,6 +49,8 @@ public class EnemyHP : MonoBehaviour
 
     private IEnumerator DyingAnimation()
     {
+        gameObject.GetComponent<AudioSource>().Play();
+
         gameObject.GetComponent<Collider2D>().enabled = false;
 
         gameObject.GetComponent<Animator>().SetBool("dying", true);

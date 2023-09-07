@@ -143,3 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56dfd84ad4603d54c99459d41662298c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heartTakenFX: {fileID: 663810653582689041, guid: fccb70203c54c7a4fba71a30c9c733d8, type: 3}

@@ -13,6 +13,7 @@ public class Dash : MonoBehaviour
     const float DASH_COOLDOWN = 0.75f;
     [SerializeField] private Image dashBar;
     [SerializeField] private Image dashBarBackground;
+    [SerializeField] private AudioClip dashSound;
     float dashFullCooldownBar = 100;
     float dashActualCooldownBar;
 
@@ -35,7 +36,7 @@ public class Dash : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && Gats.canDash)
         {
-            
+            gameObject.GetComponent<AudioSource>().PlayOneShot(dashSound, 0.5f);
 
             StartCoroutine(DashCooldownCoroutine());
 
@@ -85,6 +86,8 @@ public class Dash : MonoBehaviour
         playerRigidBody.velocity *= 6;
 
         yield return new WaitForSeconds(DASH_DURATION);
+
+        gameObject.GetComponent<AudioSource>().Stop();
 
         TurnOffDashingBools();
 

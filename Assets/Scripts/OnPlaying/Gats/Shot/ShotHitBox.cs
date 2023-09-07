@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ShotHitBox : MonoBehaviour
 {
+    [SerializeField] private Transform shotFXObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,8 @@ public class ShotHitBox : MonoBehaviour
         if (collision.CompareTag("enemy"))
         {
             collision.GetComponent<EnemyHP>().GetDamage(Gats.shotDamage);
-            
+
+            callingFXToBrokenShot();
 
             Destroy(gameObject);
 
@@ -34,8 +36,17 @@ public class ShotHitBox : MonoBehaviour
         
         else if (!collision.CompareTag("gats"))
         {
-            Destroy(transform.gameObject);
+            callingFXToBrokenShot();
+
+            Destroy(gameObject);
         }
         
+    }
+
+    private void callingFXToBrokenShot()
+    {
+        GameObject newShotFXObject = Instantiate(shotFXObject.gameObject);
+        newShotFXObject.transform.position = transform.position;
+        newShotFXObject.SetActive(true);
     }
 }

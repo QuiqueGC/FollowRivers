@@ -11,6 +11,7 @@ public class PunchAttack : MonoBehaviour
     [SerializeField] private Transform punchHitBox;
     [SerializeField] private Image punchBar;
     [SerializeField] private Image punchBarBackground;
+    [SerializeField] private AudioClip hitSound;
     const float PUNCH_TIMING = 0.2f;
     const float PUNCH_COOLDOWN = 0.5f;
     private float punchActualCooldownBar;
@@ -35,6 +36,8 @@ public class PunchAttack : MonoBehaviour
 
         if (Input.GetKeyDown("k") && Gats.canAttack)
         {
+
+            gameObject.GetComponent<AudioSource>().PlayOneShot(hitSound, 0.5f);
 
             StartCoroutine(PunchCooldownCoroutine());
 
@@ -91,7 +94,7 @@ public class PunchAttack : MonoBehaviour
         animator.SetBool("attackArea", false);
         Gats.isAttacking = false;
 
-        
+        gameObject.GetComponent<AudioSource>().Stop();
 
         HitBoxActivation(false);
 
