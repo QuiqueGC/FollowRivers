@@ -12,6 +12,7 @@ TagManager:
   - heart
   - door
   - finalDoor
+  - wall
   layers:
   - Default
   - TransparentFX

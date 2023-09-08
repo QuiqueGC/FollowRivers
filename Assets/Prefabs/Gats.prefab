@@ -347,7 +347,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!95 &2701425878862998170
 Animator:
@@ -383,7 +383,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2701425878862998170}
-  UI: {fileID: 0}
+  livesText: {fileID: 0}
+  scoreText: {fileID: 0}
+  damageReceived: {fileID: 0}
 --- !u!114 &4410872130338042782
 MonoBehaviour:
   m_ObjectHideFlags: 0

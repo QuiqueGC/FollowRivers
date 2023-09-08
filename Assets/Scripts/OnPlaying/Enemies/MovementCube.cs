@@ -11,8 +11,6 @@ public class MovementCube : MonoBehaviour
     public Animator animator;
     private float verticalDistanceFromTarget;
     private float horizontalDistanceFromTarget;
-    private float DISTANCE_TO_GO = 100;
-    private Vector3 positionToGo;
     private bool enemyOnTheRight;
     private bool enemyOnTheLeft;
     private float CUBE_DAMAGE = 100;
@@ -71,14 +69,14 @@ public class MovementCube : MonoBehaviour
     {
         if (enemyOnTheRight)
         {
-            positionToGo = new Vector3(transform.position.x + DISTANCE_TO_GO, 0, 0);
-            transform.position += positionToGo.normalized * SPEED * Time.deltaTime;
+
+            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(1,0).normalized*SPEED;
 
         }
         else if (enemyOnTheLeft)
         {
-            positionToGo = new Vector3(transform.position.x - DISTANCE_TO_GO, 0, 0);
-            transform.position += positionToGo.normalized * SPEED * Time.deltaTime;
+           
+            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-1, 0).normalized * SPEED;
         }
     }
 
@@ -86,7 +84,6 @@ public class MovementCube : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-         
         if (collision.collider.CompareTag("enemy") && animator.GetBool("findEnemy"))
         {
             collision.gameObject.GetComponent<EnemyHP>().GetDamage(CUBE_DAMAGE);

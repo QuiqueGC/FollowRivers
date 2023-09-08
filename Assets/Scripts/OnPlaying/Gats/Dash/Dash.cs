@@ -128,4 +128,6 @@ public class Dash : MonoBehaviour
         animator.SetBool("dashDown", false);
         Gats.isDashing = false;
     }
+
+    
 }

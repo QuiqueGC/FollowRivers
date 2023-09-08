@@ -174,6 +174,7 @@ public class CharacterMovement : MonoBehaviour
         {
             SufferingDamage();
         }
+
     }
     
 
