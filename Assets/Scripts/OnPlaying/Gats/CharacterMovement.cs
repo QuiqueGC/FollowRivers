@@ -1,34 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CharacterMovement : MonoBehaviour
 {
     public Animator animator;
-    Rigidbody2D playerRigidBody;
-    private Color color;
+    private Rigidbody2D playerRigidBody;
+    private AudioSource playerAudioSource;
+    private SpriteRenderer playerSpriteRenderer;
+    private Collider2D playerCollider;
+    private Color originalColor;
     private bool invulnerable;
-    [SerializeField] TextMeshProUGUI livesText;
-    [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] AudioClip damageReceived;
-    private string actualHP;
-    private string actualScore;
-    List<Collider2D> enemiesColliders = new List<Collider2D>();
+    List<Collider2D> enemiesColliders;
 
     // Start is called before the first frame update
     void Start()
-    {  
+    {
+        enemiesColliders = new List<Collider2D>();
         playerRigidBody = GetComponent<Rigidbody2D>();
-        color = transform.GetComponent<SpriteRenderer>().color;
+        playerAudioSource = GetComponent<AudioSource>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
+        playerCollider = GetComponent<Collider2D>();
+        originalColor = playerSpriteRenderer.color;
         invulnerable = false;
-        
-        
-
     }
-
 
     // Update is called once per frame
     void Update()
@@ -37,31 +35,7 @@ public class CharacterMovement : MonoBehaviour
 
         ManageAnimations();
 
-        actualHP = "Vidas: " + Gats.lives.ToString();
-
-        livesText.text = actualHP;
-
-        actualScore = "Comida para el invierno: " + Gats.score.ToString();
-
-        scoreText.text = actualScore;
-
-        
-        foreach (Collider2D c in enemiesColliders)
-        {
-            try {
-                if (Physics2D.IsTouching(GetComponent<Collider2D>(), c))
-                {
-                    SufferingDamage();
-                }
-            }catch (Exception e)
-            {
-                Debug.Log(e);
-                Debug.Log("algo falla");
-            }
-            
-
-        }
-
+        CheckIfEnemiesTouching();
     }
 
     private void RegularMovement()
@@ -85,12 +59,12 @@ public class CharacterMovement : MonoBehaviour
         DownAnimations();
     }
 
-    void LeftAnimations()
+    private void LeftAnimations()
     {
          if (Input.GetKey("a") && !animator.GetBool("goingTop") && !animator.GetBool("goingDown"))
         {
             animator.SetBool("goingLeft", true);
-            UpdateStopBoolsToFalse();
+            TurnStopBoolsToFalse();
         }
         if (Input.GetKeyUp("a"))
         {
@@ -99,12 +73,12 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    void RightAnimations()
+    private void RightAnimations()
     {
         if (Input.GetKey("d") && !animator.GetBool("goingTop") && !animator.GetBool("goingDown"))
         {
             animator.SetBool("goingRight", true);
-            UpdateStopBoolsToFalse();
+            TurnStopBoolsToFalse();
         }
         if (Input.GetKeyUp("d"))
         {
@@ -113,12 +87,12 @@ public class CharacterMovement : MonoBehaviour
         }
     }
     
-    void TopAnimations()
+    private void TopAnimations()
     {
         if (Input.GetKey("w") && !animator.GetBool("goingRight") && !animator.GetBool("goingLeft"))
         {
             animator.SetBool("goingTop", true);
-            UpdateStopBoolsToFalse();
+            TurnStopBoolsToFalse();
         }
         if (Input.GetKeyUp("w"))
         {
@@ -127,12 +101,12 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    void DownAnimations()
+    private void DownAnimations()
     {
         if (Input.GetKey("s") && !animator.GetBool("goingRight") && !animator.GetBool("goingLeft"))
         {
             animator.SetBool("goingDown", true);
-            UpdateStopBoolsToFalse();
+            TurnStopBoolsToFalse();
         }
         if (Input.GetKeyUp("s"))
         {
@@ -141,7 +115,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    void UpdateStopBoolsToFalse()
+    private void TurnStopBoolsToFalse()
     {
         animator.SetBool("stopLeft", false);
         animator.SetBool("stopRight", false);
@@ -149,66 +123,82 @@ public class CharacterMovement : MonoBehaviour
         animator.SetBool("stopDown", false);
     }
 
-
+    private void CheckIfEnemiesTouching()
+    {
+        foreach (Collider2D c in enemiesColliders)
+        {
+            try
+            {
+                if (Physics2D.IsTouching(playerCollider, c))
+                {
+                    ReceiveAttack();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
 
         if (collision.collider.CompareTag("enemy") && !Gats.isDashing) 
         {
             enemiesColliders.Add(collision.collider);
 
-            SufferingDamage();
+            ReceiveAttack();
 
         }
         else if(collision.collider.CompareTag("enemy") && Gats.isDashing)
         {
             enemiesColliders.Add(collision.collider);
 
-            Collision2D enemy = collision;
-           
-            
-
         }
-        if (collision.collider.CompareTag("cube"))
+        else if (collision.collider.CompareTag("cube"))
         {
-            SufferingDamage();
+            ReceiveAttack();
         }
-
     }
     
-
-    private void SufferingDamage()
+    private void ReceiveAttack()
     {
         if(!invulnerable)
         {
-            gameObject.GetComponent<AudioSource>().PlayOneShot(damageReceived, 0.75f);
-            Gats.lives--;
-
+            SufferingDamage();
+            
             StartCoroutine(InvulnerabilityForDamageRecieved());
         }
-        
 
         if (Gats.lives <= 0)
         {
-            SceneManager.LoadScene("GameOver");
+            LostGame();
         }
+    }
+
+    private void SufferingDamage()
+    {
+        playerAudioSource.PlayOneShot(damageReceived, 0.75f);
+
+        Gats.lives--;
     }
 
     private IEnumerator InvulnerabilityForDamageRecieved()
     {
         invulnerable = true;
-        transform.GetComponent<SpriteRenderer>().color = Color.red;
+        playerSpriteRenderer.color = Color.red;
 
         yield return new WaitForSeconds(3);
 
         invulnerable = false;
-        transform.GetComponent<SpriteRenderer>().color = color;
-
-
+        playerSpriteRenderer.color = originalColor;
     }
-    
-    
+
+    private void LostGame()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+
 
     private void OnCollisionExit2D(Collision2D collision)
     {

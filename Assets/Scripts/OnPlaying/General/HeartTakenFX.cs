@@ -1,36 +1,37 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HeartTakenFX : MonoBehaviour
 {
     [SerializeField] private Transform player;
+    private AudioSource heartTakenAudioSource;
     private bool used;
+    private const float FXDURATION = 0.462f;
     // Start is called before the first frame update
     void Start()
     {
+        heartTakenAudioSource = GetComponent<AudioSource>();
         used = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.position;
-
         if (!used)
         {
             used = true;
 
-            gameObject.GetComponent<AudioSource>().Play();
+            transform.position = player.position;
 
             StartCoroutine(playingFXAndDestroyingObject());
         }
     }
+
     IEnumerator playingFXAndDestroyingObject()
     {
+        heartTakenAudioSource.Play();
 
-
-        yield return new WaitForSeconds(0.462f);
+        yield return new WaitForSeconds(FXDURATION);
 
         Destroy(gameObject);
     }

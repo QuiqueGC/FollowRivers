@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class heartBehaviour : MonoBehaviour
@@ -22,31 +19,35 @@ public class heartBehaviour : MonoBehaviour
     {
         if (collision.CompareTag("gats"))
         {
-            
-            if (Gats.lives < 3)
-            {
-                Gats.lives++;
+            TakingLivesOrScore();
 
-            }
-            else
-            {
-                Gats.score += 50;
-            }
-
-            playingTakingLiveFX();
+            PlayingTakingLiveFX();
 
             Destroy(gameObject);
         }
         if (collision.CompareTag("enemy"))
         {
-            playingTakingLiveFX();
+            PlayingTakingLiveFX();
 
             Destroy(gameObject);
         }
 
     }
 
-    private void playingTakingLiveFX()
+    private void TakingLivesOrScore()
+    {
+        if (Gats.lives < 3)
+        {
+            Gats.lives++;
+
+        }
+        else
+        {
+            Gats.score += 50;
+        }
+    }
+
+    private void PlayingTakingLiveFX()
     {
         GameObject newHeartTakenFX = Instantiate(heartTakenFX.gameObject);
         newHeartTakenFX.transform.position = transform.position;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -14,11 +12,15 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FollowPlayer();
+    }
+
+
+    private void FollowPlayer()
+    {
         if (player != null)
         {
             transform.position = new Vector3(player.position.x, player.position.y, -10);
         }
-        
-        
     }
 }

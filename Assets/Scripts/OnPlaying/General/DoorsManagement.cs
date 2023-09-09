@@ -1,30 +1,28 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DoorsManagement : MonoBehaviour
 {
-    //public static DoorsManagement instance;
     [SerializeField] private GameObject player;
     private bool isTouching;
     [SerializeField] private Sprite openDoor;
+    private Collider2D doorCollider;
+    private SpriteRenderer doorSpriteRenderer;
+    private AudioSource doorAudioSource;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        doorCollider = GetComponent<Collider2D>();
+        doorSpriteRenderer = GetComponent<SpriteRenderer>();
+        doorAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-
         OpeningDoors();
-        
     }
 
     private void OpeningDoors()
@@ -32,22 +30,28 @@ public class DoorsManagement : MonoBehaviour
 
         if (isTouching && Input.GetKeyDown("l"))
         {
-            transform.gameObject.GetComponent<Collider2D>().enabled = false;
+            OpeningAnyDoors();
 
-            transform.gameObject.GetComponent<SpriteRenderer>().sprite = openDoor;
-
-            gameObject.GetComponent<AudioSource>().Play();
-
-
-            if(gameObject.tag == "finalDoor")
-            {
-                SceneManager.LoadScene("WinScene");
-            }
-            
+            JustOpeningFinalDoors();
         }
     }
 
-   
+    private void OpeningAnyDoors()
+    {
+        doorCollider.enabled = false;
+
+        doorSpriteRenderer.sprite = openDoor;
+
+        doorAudioSource.Play();
+    }
+
+    private void JustOpeningFinalDoors()
+    {
+        if (gameObject.tag == "finalDoor")
+        {
+            SceneManager.LoadScene("WinScene");
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -57,7 +61,6 @@ public class DoorsManagement : MonoBehaviour
         }
     }
 
-    
 
     private void OnCollisionExit2D(Collision2D collision)
     {
