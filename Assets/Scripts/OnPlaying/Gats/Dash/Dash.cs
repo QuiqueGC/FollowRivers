@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +6,7 @@ public class Dash : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     Rigidbody2D playerRigidBody;
+    private AudioSource playerAudioSource;
     const float DASH_DURATION = 0.15f;
     const float DASH_COOLDOWN = 0.75f;
     [SerializeField] private Image dashBar;
@@ -20,10 +19,9 @@ public class Dash : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerAudioSource = gameObject.GetComponent<AudioSource>();
         playerRigidBody = GetComponent<Rigidbody2D>();
-
         dashActualCooldownBar = dashFullCooldownBar;
-
         Gats.canDash = true;
         Gats.isDashing = false;
     }
@@ -35,15 +33,13 @@ public class Dash : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && Gats.canDash)
         {
-            gameObject.GetComponent<AudioSource>().PlayOneShot(dashSound, 0.5f);
+            playerAudioSource.PlayOneShot(dashSound, 0.5f);
 
             StartCoroutine(DashCooldownCoroutine());
 
             StartCoroutine(DashBarCoroutine());
 
             StartCoroutine(DashCoroutine());
-
-
         }
     }
 
@@ -60,12 +56,10 @@ public class Dash : MonoBehaviour
 
         dashBar.gameObject.SetActive(false);
         dashBarBackground.gameObject.SetActive(false);
-
     }
 
    private IEnumerator DashBarCoroutine()
     {
-        
         for(dashActualCooldownBar = 0; dashActualCooldownBar < dashFullCooldownBar; dashActualCooldownBar += 10)
         {
             yield return new WaitForSeconds(DASH_COOLDOWN / 10);
@@ -75,7 +69,6 @@ public class Dash : MonoBehaviour
     private IEnumerator DashCoroutine()
     {
         Gats.isDashing = true;
-
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("Goblin"), true);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("DeadCube"), true);
@@ -92,7 +85,6 @@ public class Dash : MonoBehaviour
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("Goblin"), false);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gats"), LayerMask.NameToLayer("DeadCube"), false);
-
     }
 
     private void ChooseSideToDash()

@@ -1,41 +1,43 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ShotAttack : MonoBehaviour
 {
     [SerializeField] private Animator gatsAnimator;
     [SerializeField] private Transform shotHitBox;
     [SerializeField] private AudioClip shotSound;
+    private AudioSource playerAudioSource;
     private Animator shotAnimator;
-    float speedShot = 6.5f;
-    float shotDuration = 0.19f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        playerAudioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown("j"))
         {
-            gameObject.GetComponent<AudioSource>().PlayOneShot(shotSound, 0.25f);
+            playerAudioSource.PlayOneShot(shotSound, 0.25f);
 
-            GameObject newShotHitBox = Instantiate(shotHitBox.gameObject);
+            GameObject newShotHitBox = ShotCreation();
 
-            shotAnimator = newShotHitBox.GetComponent<Animator>();
-
-            newShotHitBox.transform.position = new Vector3 (transform.GetComponentInParent<Transform>().position.x, transform.GetComponentInParent<Transform>().position.y, transform.GetComponentInParent<Transform>().position.z);
-            
             StartCoroutine(ShotCoroutine(newShotHitBox));
         }
+    }
+
+    private GameObject ShotCreation()
+    {
+        float playerPositionX = transform.GetComponentInParent<Transform>().position.x;
+        float playerPositionY = transform.GetComponentInParent<Transform>().position.y;
+
+        GameObject newShotHitBox = Instantiate(shotHitBox.gameObject);
+
+        shotAnimator = newShotHitBox.GetComponent<Animator>();
+
+        newShotHitBox.transform.position = new Vector3(playerPositionX, playerPositionY, 0);
+
+        return newShotHitBox;
     }
 
     private IEnumerator ShotCoroutine(GameObject newShotHitBox)
@@ -45,78 +47,75 @@ public class ShotAttack : MonoBehaviour
         bool lookingRight = gatsAnimator.GetBool("goingRight") || gatsAnimator.GetBool("stopRight");
         bool lookingDown = gatsAnimator.GetBool("goingDown") || gatsAnimator.GetBool("stopDown");
 
+        const float SPEED_SHOT = 6.5f;
+        const float SHOT_DURATION = 0.19f;
+
         newShotHitBox.SetActive(true);
 
         if (lookingLeft)
         {
-            LeftAttack(newShotHitBox);
+            LeftAttack(newShotHitBox, SPEED_SHOT);
         }
         else if (lookingTop)
         {
-            TopAttack(newShotHitBox);
+            TopAttack(newShotHitBox, SPEED_SHOT);
         }
         else if (lookingRight)
         {
-            RightAttack(newShotHitBox);
+            RightAttack(newShotHitBox, SPEED_SHOT);
         }
         else if (lookingDown)
         {
-            BotAttack(newShotHitBox);
+            BotAttack(newShotHitBox, SPEED_SHOT);
         }
 
-        yield return new WaitForSeconds(shotDuration);
-
-       /* if (newShotHitBox != null)
-        {
-            Destroy(newShotHitBox);
-        }*/
-        
+        yield return new WaitForSeconds(SHOT_DURATION);
 
         gatsAnimator.SetBool("hitingLeft", false);
         gatsAnimator.SetBool("hitingTop", false);
         gatsAnimator.SetBool("hitingRight", false);
         gatsAnimator.SetBool("hitingDown", false);
-
-
     }
 
-    private void LeftAttack(GameObject newShotHitBox)
+    private void LeftAttack(GameObject newShotHitBox, float SPEED_SHOT)
     {
+        Rigidbody2D newShotHitBoxRigidBody2D = newShotHitBox.GetComponent<Rigidbody2D>();
         gatsAnimator.SetBool("hitingLeft", true);
-
         shotAnimator.SetBool("leftAttack", true);
-       
 
-        newShotHitBox.GetComponent<Rigidbody2D>().velocity = new Vector2(shotHitBox.GetComponent<Rigidbody2D>().velocity.x - speedShot, shotHitBox.GetComponent<Rigidbody2D>().velocity.y);
+        newShotHitBoxRigidBody2D.velocity = new Vector2(-SPEED_SHOT, 0);
     }
 
-    private void TopAttack(GameObject newShotHitBox)
+    private void TopAttack(GameObject newShotHitBox, float SPEED_SHOT)
     {
-        gatsAnimator.SetBool("hitingTop", true);
+        Rigidbody2D newShotHitBoxRigidBody2D = newShotHitBox.GetComponent<Rigidbody2D>();
 
+        gatsAnimator.SetBool("hitingTop", true);
         shotAnimator.SetBool("topAttack", true);
 
-        newShotHitBox.GetComponent<Rigidbody2D>().velocity = new Vector2(shotHitBox.GetComponent<Rigidbody2D>().velocity.x, shotHitBox.GetComponent<Rigidbody2D>().velocity.y + speedShot);
+        newShotHitBoxRigidBody2D.velocity = new Vector2(0, SPEED_SHOT);
 
     }
 
-    private void RightAttack(GameObject newShotHitBox)
+    private void RightAttack(GameObject newShotHitBox, float SPEED_SHOT)
     {
-        gatsAnimator.SetBool("hitingRight", true);
+        Rigidbody2D newShotHitBoxRigidBody2D = newShotHitBox.GetComponent<Rigidbody2D>();
 
+        gatsAnimator.SetBool("hitingRight", true);
         shotAnimator.SetBool("rightAttack", true);
 
-        newShotHitBox.GetComponent<Rigidbody2D>().velocity = new Vector2(shotHitBox.GetComponent<Rigidbody2D>().velocity.x + speedShot, shotHitBox.GetComponent<Rigidbody2D>().velocity.y);
+        newShotHitBoxRigidBody2D.velocity = new Vector2(SPEED_SHOT, 0);
 
     }
 
-    private void BotAttack(GameObject newShotHitBox)
+    private void BotAttack(GameObject newShotHitBox, float SPEED_SHOT)
     {
-        gatsAnimator.SetBool("hitingDown", true);
+        Rigidbody2D newShotHitBoxRigidBody2D = newShotHitBox.GetComponent<Rigidbody2D>();
 
+        gatsAnimator.SetBool("hitingDown", true);
         shotAnimator.SetBool("downAttack", true);
 
-        newShotHitBox.GetComponent<Rigidbody2D>().velocity = new Vector2(shotHitBox.GetComponent<Rigidbody2D>().velocity.x, shotHitBox.GetComponent<Rigidbody2D>().velocity.y - speedShot);
+        newShotHitBoxRigidBody2D.velocity = new Vector2(0, -SPEED_SHOT);
 
     }
 }

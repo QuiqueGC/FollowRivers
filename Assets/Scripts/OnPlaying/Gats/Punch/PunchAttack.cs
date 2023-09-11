@@ -1,17 +1,17 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PunchAttack : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator characterAnimator;
     [SerializeField] private Transform punchHitBox;
     [SerializeField] private Image punchBar;
     [SerializeField] private Image punchBarBackground;
     [SerializeField] private AudioClip hitSound;
+    private Animator hitBoxAnimator;
+    private AudioSource playerAudioSource;
     const float PUNCH_TIMING = 0.2f;
     const float PUNCH_COOLDOWN = 0.5f;
     private float punchActualCooldownBar;
@@ -20,6 +20,8 @@ public class PunchAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hitBoxAnimator = punchHitBox.GetComponent<Animator>();
+        playerAudioSource = GetComponent<AudioSource>();
         punchActualCooldownBar = punchMaxCooldownBar;
 
         Gats.canAttack = true;
@@ -30,14 +32,11 @@ public class PunchAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-            punchBar.fillAmount = punchActualCooldownBar / punchMaxCooldownBar;
+        punchBar.fillAmount = punchActualCooldownBar / punchMaxCooldownBar;
       
-
         if (Input.GetKeyDown("k") && Gats.canAttack)
         {
-
-            gameObject.GetComponent<AudioSource>().PlayOneShot(hitSound, 0.5f);
+            playerAudioSource.PlayOneShot(hitSound, 0.5f);
 
             StartCoroutine(PunchCooldownCoroutine());
 
@@ -62,51 +61,36 @@ public class PunchAttack : MonoBehaviour
         punchBar.gameObject.SetActive(true);
         punchBarBackground.gameObject.SetActive(true);
 
-
         yield return new WaitForSeconds(PUNCH_COOLDOWN);
-
-
 
         Gats.canAttack = true;
 
         punchBar.gameObject.SetActive(false);
         punchBarBackground.gameObject.SetActive(false);
-
-
     }
 
     private IEnumerator PunchCoroutine()
     {
-       
-        
-
         Gats.isAttacking = true;
 
-
-      
-
-        animator.SetBool("attackArea", true);
+        characterAnimator.SetBool("attackArea", true);
 
         HitBoxActivation(true);
 
         yield return new WaitForSeconds(PUNCH_TIMING);
 
-        animator.SetBool("attackArea", false);
+        characterAnimator.SetBool("attackArea", false);
         Gats.isAttacking = false;
 
         gameObject.GetComponent<AudioSource>().Stop();
 
         HitBoxActivation(false);
-
-        
     }
 
    
 
     private void HitBoxActivation(Boolean activation)
     {
-        Animator hitBoxAnimator = punchHitBox.GetComponent<Animator>();
-
         punchHitBox.gameObject.SetActive(activation);
         hitBoxAnimator.SetBool("isAttacking", activation);
     }

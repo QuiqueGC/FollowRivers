@@ -7,14 +7,13 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject pauseUI;
     [SerializeField] GameObject inGameUI;
     AudioSource pauseSong;
-    // Start is called before the first frame update
+
     void Start()
     {
         paused = false;
         pauseSong = gameObject.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !paused)

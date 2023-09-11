@@ -1,21 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShotHitBox : MonoBehaviour
 {
     [SerializeField] private Transform shotFXObject;
-    // Start is called before the first frame update
+    private Collider2D shotHitBoxCollider2D;
+
     void Start()
     {
-        
+        shotHitBoxCollider2D = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("enemy"))
@@ -25,21 +19,17 @@ public class ShotHitBox : MonoBehaviour
             callingFXToBrokenShot();
 
             Destroy(gameObject);
-
-        }else if (collision.CompareTag("heart"))
-        {
-
-            Physics2D.IgnoreCollision(collision, gameObject.GetComponent<Collider2D>());
         }
-        
-        
+        else if (collision.CompareTag("heart"))
+        {
+            Physics2D.IgnoreCollision(collision, shotHitBoxCollider2D);
+        }
         else if (!collision.CompareTag("gats"))
         {
             callingFXToBrokenShot();
 
             Destroy(gameObject);
         }
-        
     }
 
     private void callingFXToBrokenShot()

@@ -45474,6 +45474,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1634437659612776059, guid: c224df9b27310c442b7e32b350bf60aa, type: 3}
   m_PrefabInstance: {fileID: 1420850512}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1421599633 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2701425878862998170, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
+  m_PrefabInstance: {fileID: 5732856301313565081}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1426164886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56049,6 +56054,10 @@ PrefabInstance:
       propertyPath: hitSound
       value: 
       objectReference: {fileID: 8300000, guid: 53f8721892f3f7a4d9a9633fae9457cf, type: 3}
+    - target: {fileID: 3518819771476182082, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
+      propertyPath: characterAnimator
+      value: 
+      objectReference: {fileID: 1421599633}
     - target: {fileID: 3539763703919553952, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
       propertyPath: m_Name
       value: Gats
@@ -56128,6 +56137,10 @@ PrefabInstance:
     - target: {fileID: 8673283018030906877, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
       propertyPath: m_Size.y
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047823272515726328, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9069016867444979144, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
       propertyPath: m_LocalScale.x

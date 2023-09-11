@@ -11,7 +11,6 @@ public class DoorsManagement : MonoBehaviour
     private AudioSource doorAudioSource;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         doorCollider = GetComponent<Collider2D>();
@@ -19,7 +18,7 @@ public class DoorsManagement : MonoBehaviour
         doorAudioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         OpeningDoors();
