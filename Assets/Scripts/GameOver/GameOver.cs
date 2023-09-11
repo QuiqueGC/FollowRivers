@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,31 +8,32 @@ public class GameOver : MonoBehaviour
     Vector3 leftChoice = new Vector3(360, 100, 0);
     Vector3 rightChoice = new Vector3(1050, 100, 0);
     private bool choiceDone;
+    private AudioSource gameOverAudioSource;
+    private AudioSource handToMoveAudioSource;
+    private const float SOUND_DURATION = 0.289f;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
+        gameOverAudioSource = gameObject.GetComponent<AudioSource>();
+        handToMoveAudioSource = handToMove.gameObject.GetComponent<AudioSource>();
         choiceDone = false;
         Gats.lives = 3;
         Gats.score = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown("a") && !choiceDone)
         {
             handToMove.position = leftChoice;
 
-            handToMove.gameObject.GetComponent<AudioSource>().Play();
+            handToMoveAudioSource.Play();
         }
         if (Input.GetKeyDown("d") && !choiceDone) 
         {
             handToMove.position = rightChoice;
 
-            handToMove.gameObject.GetComponent<AudioSource>().Play();
+            handToMoveAudioSource.Play();
         }
 
         if(Input.GetKeyDown("k") && !choiceDone) 
@@ -42,16 +41,14 @@ public class GameOver : MonoBehaviour
             choiceDone = true;
             
             StartCoroutine(PlayingSoundAndChangingScene());
-            
         }
-        
     }
 
     private IEnumerator PlayingSoundAndChangingScene()
     {
-        gameObject.GetComponent<AudioSource>().Play();
+        gameOverAudioSource.Play();
 
-        yield return new WaitForSeconds(0.289f);
+        yield return new WaitForSeconds(SOUND_DURATION);
 
         if (handToMove.position == leftChoice)
         {
@@ -59,9 +56,7 @@ public class GameOver : MonoBehaviour
         }
         else
         {
-            
             Application.Quit();
         }
-
     } 
 }

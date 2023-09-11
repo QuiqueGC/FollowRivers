@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,46 +7,58 @@ public class MainTitle : MonoBehaviour
     [SerializeField] GameObject pauseUI;
     private bool choiceDone;
     private bool firstKeyDown;
+    private AudioSource mainTitleAudioSource;
+    const float SOUND_DURATION = 0.289f;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        mainTitleAudioSource = GetComponent<AudioSource>();
         choiceDone = false;
         firstKeyDown = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.anyKey && firstKeyDown)
         {
-            firstKeyDown = false;
-            pauseUI.SetActive(true);
-            gameObject.GetComponent<AudioSource>().Play();
-
+            GoToNextUI();
         }
         if (Input.GetKeyDown(KeyCode.Escape) && !firstKeyDown && !choiceDone)
         {
-            choiceDone = true;
-            StartCoroutine(callingFXPreviousToStart());
+            StartGame();
         }
         else if (Input.GetKeyDown("z") && !firstKeyDown && !choiceDone)
         {
-            choiceDone = true;
-
-            Application.Quit();
-
+            QuitGame();
         }
+    }
 
-       
+    private void GoToNextUI()
+    {
+        firstKeyDown = false;
+        pauseUI.SetActive(true);
+        mainTitleAudioSource.Play();
+    }
+
+    private void StartGame()
+    {
+        choiceDone = true;
+        StartCoroutine(callingFXPreviousToStart());
     }
 
     private IEnumerator callingFXPreviousToStart()
     {
-        gameObject.GetComponent<AudioSource>().Play();
-        yield return new WaitForSeconds(0.289f);
+        mainTitleAudioSource.Play();
+
+        yield return new WaitForSeconds(SOUND_DURATION);
 
         SceneManager.LoadScene("Stage1");
+    }
+
+    private void QuitGame()
+    {
+        choiceDone = true;
+
+        Application.Quit();
     }
 }

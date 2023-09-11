@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 8506835981742609294, guid: dc8ed8c47c54e844eafc227a9c95676d, type: 3}
-  animator: {fileID: 2594309136206897702}
+  cubeAnimator: {fileID: 2594309136206897702}
 --- !u!61 &6999396247758252851
 BoxCollider2D:
   m_ObjectHideFlags: 0

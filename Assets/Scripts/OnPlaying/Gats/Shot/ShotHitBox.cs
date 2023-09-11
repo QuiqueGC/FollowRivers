@@ -14,7 +14,7 @@ public class ShotHitBox : MonoBehaviour
     {
         if (collision.CompareTag("enemy"))
         {
-            collision.GetComponent<EnemyHP>().GetDamage(Gats.shotDamage);
+            collision.GetComponent<EnemyHP>().EnemyGetDamage(Gats.shotDamage);
 
             callingFXToBrokenShot();
 

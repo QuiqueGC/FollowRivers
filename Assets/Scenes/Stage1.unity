@@ -47524,7 +47524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61599669ac4033248b86763ab1533e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1775479405}
+  goblinDialog: {fileID: 1775479405}
   target: {fileID: 267709793}
   rightGoblin: 1
 --- !u!1 &1596708004
@@ -49556,7 +49556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61599669ac4033248b86763ab1533e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 2024455093}
+  goblinDialog: {fileID: 2024455093}
   target: {fileID: 267709793}
   rightGoblin: 0
 --- !u!1 &1775479404

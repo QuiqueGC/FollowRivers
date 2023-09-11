@@ -7,7 +7,7 @@ public class PunchHitBox : MonoBehaviour
     {
         if (collision.CompareTag("enemy"))
         {
-            collision.GetComponent<EnemyHP>().GetDamage(Gats.punchDamage);
+            collision.GetComponent<EnemyHP>().EnemyGetDamage(Gats.punchDamage);
         }
     }
 }

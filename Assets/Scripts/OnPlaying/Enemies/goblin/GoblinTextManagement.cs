@@ -1,84 +1,76 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class GoblinTextManagement : MonoBehaviour
 {
-    [SerializeField] Transform text;
+    [SerializeField] Transform goblinDialog;
     [SerializeField] Transform target;
     [SerializeField] bool rightGoblin;
-    private string[] goblinText;
+    private string[] goblinSentences;
     private bool startTalking;
     private float secondsToChangeText;
     
-    // Start is called before the first frame update
     void Start()
     {
-
         startTalking = false;
+        goblinSentences = new string[6];
 
-        goblinText = new string[6];
-
-        if (rightGoblin)
-        {
-            goblinText[0] = "Dfafs ar´es re´asc ghre!!";
-            goblinText[1] = "Frrrac´to waeas uhóeren!!!";
-            goblinText[2] = "Emmm...";
-            goblinText[3] = "Creo que no nos entiende...";
-            goblinText[4] = "Bueno, da igual.";
-            goblinText[5] = "En resumen: si entras, mueres.";
-
-            secondsToChangeText = 2f;
-        }
-        else
-        {
-            goblinText[0] = "Dfafs dfafs!!";
-            goblinText[1] = "Frrrac´frrrac´!!!";
-            goblinText[2] = "Mmm...";
-            goblinText[3] = "No entiende, no entiende!!";
-            goblinText[4] = "Da bueno, digual!!";
-            goblinText[5] = "Muere, muere!!!";
-
-            secondsToChangeText = 2.2f;
-        }
-        
-
+        SentencesConfiguration();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (target.position.y >= -40 && !startTalking)
         {
-            
             startTalking = true;
-            
-                StartCoroutine(TextGoblinProgression());
-           
+            StartCoroutine(TextGoblinProgression());
         }
-        
     }
-
 
     private IEnumerator TextGoblinProgression()
     {
-        text.gameObject.SetActive(true);
+        TextMeshProUGUI goblinText = goblinDialog.gameObject.GetComponent<TextMeshProUGUI>();
+        Rigidbody2D goblinRigidBody = gameObject.GetComponent<Rigidbody2D>();
+
+        goblinDialog.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(secondsToChangeText);
 
-        for (int i = 0; i < goblinText.Length; i++)
+        for (int i = 0; i < goblinSentences.Length; i++)
         {
-            text.gameObject.GetComponent<TextMeshProUGUI>().text = goblinText[i];
+            goblinText.text = goblinSentences[i];
 
             yield return new WaitForSeconds(secondsToChangeText);
         }
 
-        text.gameObject.SetActive(false);
+        goblinDialog.gameObject.SetActive(false);
 
-        gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        goblinRigidBody.bodyType = RigidbodyType2D.Dynamic;
+    }
 
-        
+    private void SentencesConfiguration()
+    {
+        if (rightGoblin)
+        {
+            goblinSentences[0] = "Dfafs ar´es re´asc ghre!!";
+            goblinSentences[1] = "Frrrac´to waeas uhóeren!!!";
+            goblinSentences[2] = "Emmm...";
+            goblinSentences[3] = "Creo que no nos entiende...";
+            goblinSentences[4] = "Bueno, da igual.";
+            goblinSentences[5] = "En resumen: si entras, mueres.";
+            secondsToChangeText = 2f;
+        }
+        else
+        {
+            goblinSentences[0] = "Dfafs dfafs!!";
+            goblinSentences[1] = "Frrrac´frrrac´!!!";
+            goblinSentences[2] = "Mmm...";
+            goblinSentences[3] = "No entiende, no entiende!!";
+            goblinSentences[4] = "Da bueno, digual!!";
+            goblinSentences[5] = "Muere, muere!!!";
+            secondsToChangeText = 2.2f;
+        }
     }
 
 }

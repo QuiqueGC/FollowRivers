@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GoblinMovement : MonoBehaviour
@@ -13,8 +11,6 @@ public class GoblinMovement : MonoBehaviour
     private float visualRange;
 
 
-
-    // Start is called before the first frame update
     void Start()
     {
         goblinRigidBody = GetComponent<Rigidbody2D>();
@@ -24,7 +20,6 @@ public class GoblinMovement : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         MoveToPlayer();
@@ -34,24 +29,7 @@ public class GoblinMovement : MonoBehaviour
     {
         if (target != null && canMove)
         {
-            if (Vector3.Distance(target.transform.position, transform.position) <= visualRange || targetAlreadySeen)
-            {
-                targetAlreadySeen = true;
-
-                goblinRigidBody.velocity = (target.position - transform.position).normalized * goblin.Speed;
-
-                animator.SetBool("findEnemy", true);
-
-                if (transform.position.y - target.transform.position.y <= 0)
-                {
-                    animator.SetBool("goingDown", false);
-                }
-                else
-                {
-                    animator.SetBool("goingDown", true);
-                }
-
-            }
+            StartMovement();
         }
         else if (target == null)
         {
@@ -59,43 +37,43 @@ public class GoblinMovement : MonoBehaviour
         }
     }
 
+    private void StartMovement()
+    {
+        if (Vector3.Distance(target.transform.position, transform.position) <= visualRange || targetAlreadySeen)
+        {
+            targetAlreadySeen = true;
+
+            goblinRigidBody.velocity = (target.position - transform.position).normalized * goblin.Speed;
+
+            AnimatorManagement();
+        }
+    }
+
+    private void AnimatorManagement()
+    {
+        animator.SetBool("findEnemy", true);
+
+        if (transform.position.y - target.transform.position.y <= 0)
+        {
+            animator.SetBool("goingDown", false);
+        }
+        else
+        {
+            animator.SetBool("goingDown", true);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("punchHitBox"))
         {
-
-           StartCoroutine(KnockBack());
-
+            KnockBack();
         }
-        
-      
     }
 
-
-    private IEnumerator KnockBack()
+    private void KnockBack()
     {
-        
         canMove = false;
-        Vector2 velocityToCheck = new Vector2(((target.position - transform.position).normalized * goblin.Speed).x,((target.position - transform.position).normalized * goblin.Speed).y);
-
-        goblinRigidBody.velocity = ((transform.position - target.position).normalized * goblin.Speed) * 1.5f;
-
-
-        while(goblinRigidBody.velocity != velocityToCheck) {
-
-            velocityToCheck = new Vector2(((target.position - transform.position).normalized * goblin.Speed).x, ((target.position - transform.position).normalized * goblin.Speed).y);
-
-            goblinRigidBody.velocity = Vector2.MoveTowards(goblinRigidBody.velocity,velocityToCheck,Time.deltaTime*12);
-
-            yield return null;
-        }
-
-        canMove = true;
+        goblinRigidBody.velocity = ((transform.position - target.position).normalized * goblin.Speed);
     }
-
-
-
-
-
 }
